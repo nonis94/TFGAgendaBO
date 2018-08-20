@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.agenda.tfgagenda.activities.AddActivity">
+    <!--Text del fons inicial-->
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/edtNombreEvento"
+            android:hint="Nombre del evento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/edtUbicacion"
+            android:layout_below="@+id/edtNombreEvento"
+            android:hint="Ubicacion del evento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/ltvDesde"
+            android:text="Desde"
+            android:layout_below="@+id/edtUbicacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/edtfechaDesde"
+            android:layout_below="@+id/edtUbicacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/edtHoraInicio"
+            android:layout_below="@+id/edtfechaDesde"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/ltvHasta"
+            android:text="Hasta"
+            android:layout_below="@+id/edtHoraInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/edtFechaHasta"
+            android:layout_below="@+id/ltvHasta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/edtHoraHasta"
+            android:layout_below="@+id/edtFechaHasta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/edtDescripcion"
+            android:hint="Descripcion"
+            android:layout_below="@+id/edtHoraHasta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btnGuardar"
+            android:text="Guardar"
+            android:layout_below="@+id/edtDescripcion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btnCancelar"
+            android:text="Cancelar"
+            android:layout_below="@+id/edtDescripcion"
+            android:layout_alignEnd="@+id/edtDescripcion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
