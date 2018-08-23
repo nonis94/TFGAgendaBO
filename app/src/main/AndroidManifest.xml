@@ -30,8 +30,9 @@
         <activity android:name=".activities.ListUsersActivity" />
         <activity android:name=".activities.ChatMessageActivity" />
         <activity android:name=".activities.UserProfile" />
-        <activity android:name=".activities.MenuActivity">
-        </activity>
+        <activity android:name=".activities.MenuActivity" />
+        <activity android:name=".activities.ListEventsActivity" />
+        <activity android:name=".activities.GalleryActivity"></activity>
     </application>
 
 </manifest>

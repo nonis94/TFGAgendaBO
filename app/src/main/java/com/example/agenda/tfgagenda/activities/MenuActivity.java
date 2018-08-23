@@ -77,12 +77,18 @@ public class MenuActivity extends AppCompatActivity {
                         Intent intent = new Intent(MenuActivity.this,MainActivity.class);
                         startActivity(intent);
                     }
-                    if(finalI==1){ //Chat Privat o Public
+                    else if(finalI==1){ //Chat Privat o Public
                         Intent intent = new Intent(MenuActivity.this,ChatDialogActivity.class);
                         intent.putExtra("user",user);
                         intent.putExtra("password",password);
                         startActivity(intent);
                     }
+
+                    else if(finalI==2){ //Mostrar tots events de l'usuari
+                        Intent intent = new Intent(MenuActivity.this,ListEventsActivity.class);
+                        startActivity(intent);
+                    }
+
 
                 }
             });
