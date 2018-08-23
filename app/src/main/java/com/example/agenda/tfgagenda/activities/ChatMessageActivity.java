@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -324,6 +325,7 @@ public class ChatMessageActivity extends AppCompatActivity implements QBChatDial
     }
 
     private void retrieveMessage() {
+        Log.d("retrievemessages","Entrem a retrievemessages");
         QBMessageGetBuilder messageGetBuilder = new QBMessageGetBuilder();
         messageGetBuilder.setLimit(500);//Maxim obtenim 500 missatges
 

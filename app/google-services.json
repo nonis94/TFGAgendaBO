@@ -1,0 +1,16 @@
+"client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761750217637:android:c4299bc46191b0d7",
+        "client_id": "android:com.your.app",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.your.app"
+        }
+      },
+      ...
+      "api_key": [
+        {
+          "current_key": ""
+        }
+      ],

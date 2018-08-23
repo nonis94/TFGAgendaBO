@@ -26,7 +26,8 @@ public class Global {
     // public static final String BASE_URL = "http://10.0.3.2:8080";
     // For debugging with real device using port forwarding
     // https://developer.chrome.com/devtools/docs/remote-debugging?hl=de#port-forwarding
-    public static final String BASE_URL = " http://private-373e5f-tfgagenda.apiary-mock.com";
+    //public static final String BASE_URL = " http://private-373e5f-tfgagenda.apiary-mock.com";
+    public static final String BASE_URL = "http://192.168.0.159:8080/rest/";
 
 
 }

@@ -1,7 +1,10 @@
 package com.example.agenda.tfgagenda.rest;
 
 
+import com.example.agenda.tfgagenda.model.Event;
 import com.example.agenda.tfgagenda.model.User;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.*;
@@ -14,4 +17,7 @@ public interface Api {
 
     @POST("users/register")
     Call<User> login(@Body User login);
+
+    @GET("events/{name}")
+    Call<List<Event>> getEventsByUsername(@Path("name") String name);
 }

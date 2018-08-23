@@ -1,35 +1,34 @@
 package com.example.agenda.tfgagenda.Retrofit;
-import android.content.Context;
+import android.app.Application;
 
 import com.example.agenda.tfgagenda.rest.Api;
 import com.example.agenda.tfgagenda.util.Global;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import persistentcookiejar.ClearableCookieJar;
 import persistentcookiejar.PersistentCookieJar;
 import persistentcookiejar.cache.SetCookieCache;
 import persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import okhttp3.logging.HttpLoggingInterceptor;
-/**
- * Created by Nonis123 on 25/05/2018.
- */
-public class RetrofitHTTP {
-    public Api setup(Context ctx) {
+
+public class RetrofitHTTP extends Application {
+    private Api api;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient client = new OkHttpClient(); //create OKHTTPClient
-
         ClearableCookieJar cookieJar =
-                new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(ctx));
+                new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(this));
 
         OkHttpClient httpClient = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
                 .addInterceptor(interceptor)
-                .cache(null)
                 .build();
 
         Gson gson = new GsonBuilder()
@@ -43,6 +42,12 @@ public class RetrofitHTTP {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        return retrofit.create(Api.class);
+        //retrofit.requestBodyConverter();
+
+        api = retrofit.create(Api.class);
+    }
+
+    public Api getAPI() {
+        return api;
     }
 }
