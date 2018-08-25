@@ -6,17 +6,17 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public abstract class Event {
+public class Event {
 
     private int id;
-    private String nom;
+    private String name;
     private String owner;
     private String latitud;
     private String longitud;
-
+    /*
     @GET("events/{name}")
     public abstract List<Event> getEventsByUsername(@Path("name") String name);
-
+*/
     public int getId() {
         return id;
     }
@@ -25,12 +25,12 @@ public abstract class Event {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
+    public String getName() {
+        return name;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setName(String nom) {
+        this.name = nom;
     }
 
     public String getOwner() {

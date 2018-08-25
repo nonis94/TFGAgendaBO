@@ -7,13 +7,28 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.agenda.tfgagenda.R;
+import com.example.agenda.tfgagenda.Retrofit.RetrofitHTTP;
 import com.example.agenda.tfgagenda.helper.RecyclerViewAdapter;
+import com.example.agenda.tfgagenda.model.Event;
+import com.example.agenda.tfgagenda.rest.Api;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListEventsActivity extends AppCompatActivity {
 
+    //Servei per les crides a la API
+    Api apiService;
+
     private static final String TAG = "MainActivity";
+
+    private List<Event> events = new ArrayList<>();
+    private RecyclerViewAdapter adapter;
 
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
@@ -24,13 +39,35 @@ public class ListEventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_events);
         Log.d(TAG, "onCreate: started.");
-
         initImageBitmaps();
     }
 
     private void initImageBitmaps(){
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
+        apiService = ((RetrofitHTTP) this.getApplication()).getAPI();
+
+        Call<List<Event>> call = (Call<List<Event>>) apiService.getEventsByUsername("zenon");
+        call.enqueue(new Callback<List<Event>>() {
+
+            @Override
+            public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
+                events =response.body();
+
+                for(int i=0;i<events.size();i++){
+                    mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
+                    mNames.add(events.get(i).getName());
+                    adapter.notifyItemInserted(mNames.size());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Event>> call, Throwable t) {
+                t.printStackTrace();
+                System.out.println("No ha funcionat la call = "+t.getMessage());
+            }
+        });
+        /*
         mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
         mNames.add("Havasu Falls");
 
@@ -59,6 +96,7 @@ public class ListEventsActivity extends AppCompatActivity {
 
         mImageUrls.add("https://i.imgur.com/ZcLLrkY.jpg");
         mNames.add("Washington");
+        */
 
         initRecyclerView();
     }
@@ -66,7 +104,7 @@ public class ListEventsActivity extends AppCompatActivity {
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: init recyclerview.");
         RecyclerView recyclerView = findViewById(R.id.recyclerv_view);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames, mImageUrls);
+        adapter = new RecyclerViewAdapter(this, mNames, mImageUrls);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

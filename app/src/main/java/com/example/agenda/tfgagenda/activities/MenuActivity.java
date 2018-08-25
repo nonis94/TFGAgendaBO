@@ -27,8 +27,6 @@ public class MenuActivity extends AppCompatActivity {
     GridLayout mainGrid;
     String user,password;
 
-    //Servei per les crides a la API
-    Api apiService;
     private List<Object> mAdapterData;
 
     @Override
@@ -40,25 +38,6 @@ public class MenuActivity extends AppCompatActivity {
 
         mainGrid = (GridLayout) findViewById(R.id.mainGrid);
 
-
-
-        apiService = ((RetrofitHTTP) this.getApplication()).getAPI();
-
-        Call<List<Event>> call = (Call<List<Event>>) apiService.getEventsByUsername("zenon");
-        call.enqueue(new Callback<List<Event>>() {
-
-            @Override
-            public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
-                List<Event> eventss =response.body();
-
-                System.out.println("El nombre d'elements que tenim es =");
-            }
-
-            @Override
-            public void onFailure(Call<List<Event>> call, Throwable t) {
-                System.out.println("No ha funcionat la call = "+t.getMessage());
-            }
-        });
         //Event pel click
         setSingleEvent(mainGrid);
     }
