@@ -32,11 +32,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private ArrayList<String> mImageNames = new ArrayList<>();
     private ArrayList<String> mImages = new ArrayList<>();
+    private ArrayList<String> latitud = new ArrayList<>();
+    private ArrayList<String> longitud = new ArrayList<>();
+    private ArrayList<String> datesInici = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerViewAdapter(Context context, ArrayList<String> imageNames, ArrayList<String> images ) {
+    public RecyclerViewAdapter(Context context, ArrayList<String> imageNames, ArrayList<String> images,ArrayList<String> latitud,ArrayList<String> longitud,ArrayList<String> datesInici ) {
         mImageNames = imageNames;
         mImages = images;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.datesInici = datesInici;
         mContext = context;
     }
 
@@ -68,6 +74,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Intent intent = new Intent(mContext, GalleryActivity.class);
                 intent.putExtra("image_url", mImages.get(position));
                 intent.putExtra("image_name", mImageNames.get(position));
+                intent.putExtra("datesInici", datesInici.get(position));
+                intent.putExtra("latitud", latitud.get(position));
+                intent.putExtra("longitud", longitud.get(position));
                 mContext.startActivity(intent);
             }
         });

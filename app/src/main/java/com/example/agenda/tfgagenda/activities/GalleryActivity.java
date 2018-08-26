@@ -1,14 +1,25 @@
 package com.example.agenda.tfgagenda.activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.agenda.tfgagenda.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * Created by User on 1/2/2018.
@@ -17,11 +28,30 @@ import com.example.agenda.tfgagenda.R;
 public class GalleryActivity extends AppCompatActivity {
 
     private static final String TAG = "GalleryActivity";
+    private GoogleMap googleMap;
+    private Button locationButton;
+    private String imageUrl;
+    private String imageName;
+    private String date;
+    private String latitud;
+    private String longitud;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_gallery);
+        locationButton = (Button) findViewById(R.id.button_location);
+        locationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String uri = "geo:"+latitud+","+longitud+"?z=10";
+                Uri gmmIntentUri = Uri.parse(uri);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
+        });
         Log.d(TAG, "onCreate: started.");
 
         getIncomingIntent();
@@ -33,19 +63,24 @@ public class GalleryActivity extends AppCompatActivity {
         if(getIntent().hasExtra("image_url") && getIntent().hasExtra("image_name")){
             Log.d(TAG, "getIncomingIntent: found intent extras.");
 
-            String imageUrl = getIntent().getStringExtra("image_url");
-            String imageName = getIntent().getStringExtra("image_name");
+            imageUrl = getIntent().getStringExtra("image_url");
+            imageName = getIntent().getStringExtra("image_name");
+            date = "Start: "+getIntent().getStringExtra("datesInici");
+            latitud = getIntent().getStringExtra("latitud");
+            longitud = getIntent().getStringExtra("longitud");
 
-            setImage(imageUrl, imageName);
+            setImage(imageUrl, imageName,date);
         }
     }
 
 
-    private void setImage(String imageUrl, String imageName){
+    private void setImage(String imageUrl, String imageName,String date){
         Log.d(TAG, "setImage: setting te image and name to widgets.");
 
         TextView name = findViewById(R.id.image_description);
         name.setText(imageName);
+        TextView dateInici = findViewById(R.id.iniciDate);
+        dateInici.setText(date);
 
         ImageView image = findViewById(R.id.image);
         Glide.with(this)
@@ -53,5 +88,7 @@ public class GalleryActivity extends AppCompatActivity {
                 .load(imageUrl)
                 .into(image);
     }
+
+
 
 }

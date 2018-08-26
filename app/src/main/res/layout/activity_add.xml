@@ -16,21 +16,15 @@
             android:hint="Nombre del evento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/edtUbicacion"
-            android:layout_below="@+id/edtNombreEvento"
-            android:hint="Ubicacion del evento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/ltvDesde"
             android:text="Desde"
-            android:layout_below="@+id/edtUbicacion"
+            android:layout_below="@+id/edtNombreEvento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/edtfechaDesde"
-            android:layout_below="@+id/edtUbicacion"
+            android:layout_below="@+id/edtNombreEvento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
@@ -60,17 +54,35 @@
             android:layout_below="@+id/edtHoraHasta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/edtLocation"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="Coordinates: "
+            android:textSize="20sp"
+            android:layout_below="@+id/edtDescripcion"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true" />
+        <Button
+            android:id="@+id/button"
+            android:layout_below="@+id/edtLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Request Location"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
         <Button
             android:id="@+id/btnGuardar"
             android:text="Guardar"
-            android:layout_below="@+id/edtDescripcion"
+            android:layout_below="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
             android:id="@+id/btnCancelar"
+            android:layout_below="@+id/button"
             android:text="Cancelar"
-            android:layout_below="@+id/edtDescripcion"
-            android:layout_alignEnd="@+id/edtDescripcion"
+            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>

@@ -20,4 +20,7 @@ public interface Api {
 
     @GET("events/{name}")
     Call<List<Event>> getEventsByUsername(@Path("name") String name);
+
+    @POST("events/")
+    Call<List<Event>> createEvent(Event event);
 }

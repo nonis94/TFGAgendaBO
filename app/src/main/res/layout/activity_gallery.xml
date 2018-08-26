@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="100">
@@ -8,7 +9,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="70"
+        android:layout_weight="50"
         android:id="@+id/image"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher"/>
@@ -23,5 +24,23 @@
         android:textSize="20sp"
         android:textColor="#000"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iniciDate"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:text="2018-05-13"
+        android:textSize="20sp"
+        android:textColor="#000"
+        />
+    <Button
+        android:id="@+id/button_location"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:background="@color/colorTextHint"
+        android:text="Location" />
 
 </LinearLayout>

@@ -48,15 +48,24 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             public void onClick(DialogInterface dialogInterface, int i) {
                 if(i==0){ //Añadir evento
                     Intent intent = new Intent(getApplication(), AddActivity.class);
+                    intent.putExtra("dia",String.valueOf(dia));
+                    intent.putExtra("mes",String.valueOf(finalMes));
+                    intent.putExtra("any",String.valueOf(any));
+                    /*
                     Bundle bundle = new Bundle();
                     bundle.putInt("dia",dia);
                     bundle.putInt("mes", finalMes);
                     bundle.putInt("any",any);
                     intent.putExtras(bundle);
+                    */
+
                     startActivity(intent);
                 }
                 else if(i==1){ //Ver eventos
                     Intent intent = new Intent(getApplication(), ViewEventsActivity.class);
+                    intent.putExtra("dia",dia);
+                    intent.putExtra("mes",finalMes);
+                    intent.putExtra("any",any);
                     Bundle bundle = new Bundle();
                     bundle.putInt("dia",dia);
                     bundle.putInt("mes", finalMes);

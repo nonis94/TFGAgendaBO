@@ -13,10 +13,16 @@ public class Event {
     private String owner;
     private String latitud;
     private String longitud;
-    /*
-    @GET("events/{name}")
-    public abstract List<Event> getEventsByUsername(@Path("name") String name);
-*/
+    private String eventDate;
+
+    public String getEventDate() {
+        return eventDate;
+    }
+
+    public void setEventDate(String eventDate) {
+        this.eventDate = eventDate;
+    }
+
     public int getId() {
         return id;
     }

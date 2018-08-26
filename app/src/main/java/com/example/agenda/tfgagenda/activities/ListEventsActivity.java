@@ -33,6 +33,9 @@ public class ListEventsActivity extends AppCompatActivity {
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
+    private ArrayList<String> latitud = new ArrayList<>();
+    private ArrayList<String> longitud = new ArrayList<>();
+    private ArrayList<String> datesInici = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,9 @@ public class ListEventsActivity extends AppCompatActivity {
                 for(int i=0;i<events.size();i++){
                     mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
                     mNames.add(events.get(i).getName());
+                    latitud.add(events.get(i).getLatitud());
+                    longitud.add(events.get(i).getLongitud());
+                    datesInici.add(events.get(i).getEventDate());
                     adapter.notifyItemInserted(mNames.size());
                 }
             }
@@ -104,7 +110,7 @@ public class ListEventsActivity extends AppCompatActivity {
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: init recyclerview.");
         RecyclerView recyclerView = findViewById(R.id.recyclerv_view);
-        adapter = new RecyclerViewAdapter(this, mNames, mImageUrls);
+        adapter = new RecyclerViewAdapter(this, mNames, mImageUrls,latitud,longitud,datesInici);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
