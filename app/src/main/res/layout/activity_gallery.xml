@@ -82,5 +82,22 @@
         android:layout_width="wrap_content"
         android:background="@color/colorTextHint"
         android:text="Location" />
+    <Button
+        android:id="@+id/button_remove_event"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:background="@color/colorTextHint"
+        android:text="Remove event" />
+    <Button
+        android:id="@+id/button_update_event"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:background="@color/colorTextHint"
+        android:text="Update event" />
 
 </LinearLayout>

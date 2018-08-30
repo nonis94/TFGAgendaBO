@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.agenda.tfgagenda.R;
+import com.example.agenda.tfgagenda.Retrofit.RetrofitHTTP;
+import com.example.agenda.tfgagenda.model.Empty;
+import com.example.agenda.tfgagenda.rest.Api;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -21,15 +24,22 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * Created by User on 1/2/2018.
  */
 
 public class GalleryActivity extends AppCompatActivity {
 
+    //Servei per les crides a la API
+    Api apiService;
+
     private static final String TAG = "GalleryActivity";
     private GoogleMap googleMap;
-    private Button locationButton;
+    private Button locationButton,removeButton,updateButton;
     private String imageUrl;
     private String imageName;
     private String date;
@@ -39,12 +49,15 @@ public class GalleryActivity extends AppCompatActivity {
     private String datesFinal;
     private String horesInici;
     private String horesFinal;
+    private Long id;
+    private String user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_gallery);
+        apiService = ((RetrofitHTTP) this.getApplication()).getAPI();
         locationButton = (Button) findViewById(R.id.button_location);
         locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +67,47 @@ public class GalleryActivity extends AppCompatActivity {
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
+            }
+        });
+
+        removeButton = (Button) findViewById(R.id.button_remove_event);
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<Empty> call = (Call<Empty>) apiService.deleteEvent(id);
+                call.enqueue(new Callback<Empty>() {
+                    @Override
+                    public void onResponse(Call<Empty> call, Response<Empty> response) {
+                        Intent intent = new Intent(GalleryActivity.this,ListEventsActivity.class);
+                        intent.putExtra("user",user);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Empty> call, Throwable t) {
+                        Intent intent = new Intent(GalleryActivity.this,ListEventsActivity.class);
+                        intent.putExtra("user",user);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+            }
+        });
+
+        updateButton = (Button) findViewById(R.id.button_update_event);
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Hem fet click!");
+                Intent intent = new Intent(GalleryActivity.this,UpdateActivity.class);
+                intent.putExtra("user",String.valueOf(user));
+                intent.putExtra("date",getIntent().getStringExtra("datesInici"));
+                intent.putExtra("datesFinal",getIntent().getStringExtra("datesFinal"));
+                intent.putExtra("horesInici",getIntent().getStringExtra("horesInici"));
+                intent.putExtra("horesFinal",getIntent().getStringExtra("horesFinal"));
+                intent.putExtra("id",getIntent().getLongExtra("id",0));
+                startActivity(intent);
             }
         });
         Log.d(TAG, "onCreate: started.");
@@ -76,6 +130,8 @@ public class GalleryActivity extends AppCompatActivity {
             datesFinal = "End: "+getIntent().getStringExtra("datesFinal");
             horesInici ="Initial hour: "+getIntent().getStringExtra("horesInici");
             horesFinal ="End hour: "+getIntent().getStringExtra("horesFinal");
+            id = getIntent().getLongExtra("id",0);
+            user = getIntent().getStringExtra("user");
             setImage(imageUrl, imageName,date,nomParticipantss,datesFinal,horesInici,horesFinal);
         }
     }

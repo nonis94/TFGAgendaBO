@@ -32,4 +32,7 @@ public interface Api {
 
     @DELETE("events/{id}")
     Call<Empty> deleteEvent(@Path("id") Long id);
+
+    @POST("events/{id}")
+    Call<Empty> updateEvent(@Path("id") Long id,@Body Event event);
 }

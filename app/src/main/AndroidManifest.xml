@@ -41,7 +41,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:resource="AIzaSyAB0pVaxEZ6fP9_KJl0iyvGHJtzSXHS23k"></meta-data>
         -->
-        <activity android:name=".activities.AddParticipantsEventActivity"></activity>
+        <activity android:name=".activities.AddParticipantsEventActivity" />
+        <activity android:name=".activities.UpdateActivity"></activity>
     </application>
 
 </manifest>

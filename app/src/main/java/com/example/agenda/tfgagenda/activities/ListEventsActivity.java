@@ -126,7 +126,7 @@ public class ListEventsActivity extends AppCompatActivity {
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: init recyclerview.");
         RecyclerView recyclerView = findViewById(R.id.recyclerv_view);
-        adapter = new RecyclerViewAdapter(this, mNames, mImageUrls,latitud,longitud,datesInici,nomParticipantss,datesFinal,horesInici,horesFinal,apiService,id);
+        adapter = new RecyclerViewAdapter(this, mNames, mImageUrls,latitud,longitud,datesInici,nomParticipantss,datesFinal,horesInici,horesFinal,apiService,id,user);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

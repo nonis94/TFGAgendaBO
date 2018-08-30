@@ -58,8 +58,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<String> horesFinal = new ArrayList<>();
     private ArrayList<Long> id = new ArrayList<>();
     private Context mContext;
+    private String user;
 
-    public RecyclerViewAdapter(Context context, ArrayList<String> imageNames, ArrayList<String> images,ArrayList<String> latitud,ArrayList<String> longitud,ArrayList<String> datesInici ,ArrayList<String> nomParticipantss,ArrayList<String> datesFinal,ArrayList<String> horesInici,ArrayList<String> horesFinal,Api apiService,ArrayList<Long> id ) {
+    public RecyclerViewAdapter(Context context, ArrayList<String> imageNames, ArrayList<String> images,ArrayList<String> latitud,ArrayList<String> longitud,ArrayList<String> datesInici ,ArrayList<String> nomParticipantss,ArrayList<String> datesFinal,ArrayList<String> horesInici,ArrayList<String> horesFinal,Api apiService,ArrayList<Long> id ,String user) {
         mImageNames = imageNames;
         mImages = images;
         this.latitud = latitud;
@@ -71,6 +72,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.horesFinal = horesFinal;
         this.apiService = apiService;
         this.id=id;
+        this.user = user;
         mContext = context;
     }
 
@@ -82,7 +84,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
 
         Glide.with(mContext)
@@ -109,6 +111,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 intent.putExtra("datesFinal", datesFinal.get(position));
                 intent.putExtra("horesInici", horesInici.get(position));
                 intent.putExtra("horesFinal", horesFinal.get(position));
+                intent.putExtra("id", id.get(position));
+                intent.putExtra("user", user);
                 mContext.startActivity(intent);
             }
         });
@@ -130,7 +134,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 @Override
                                 public void onResponse(Call<Empty> call, Response<Empty> response) {
                                     System.out.println("Hem esborrat esdeveniment :)");
-
                                 }
 
                                 @Override
