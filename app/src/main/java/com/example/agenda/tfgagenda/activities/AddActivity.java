@@ -2,7 +2,9 @@ package com.example.agenda.tfgagenda.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,32 +20,69 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.agenda.tfgagenda.R;
+import com.example.agenda.tfgagenda.Retrofit.RetrofitHTTP;
+import com.example.agenda.tfgagenda.helper.InputValidation;
+import com.example.agenda.tfgagenda.model.Event;
+import com.example.agenda.tfgagenda.rest.Api;
 import com.example.agenda.tfgagenda.sql.BDSQLite;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TimePicker;
 
 public class AddActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText nombreEvento, ubicacion, fechadesde, horadesde, fechahasta, horahasta, descripcion;
 
+
+    //Servei per les crides a la API
+    Api apiService;
+
     private static final int REQUEST_LOCATION = 1;
 
-    private Button guardar, cancelar, button;
+    private Button guardar, cancelar, button,addUserButton,bfechaInici,bhoraInici,bfechaFinal,bhoraFinal;
+
+    private  int diaI,mesI,anoI,horaI,minutosI,diaF,mesF,anoF,horaF,minutosF;
+
+    private int REQUEST_FORM = 1;
 
     private LocationManager locationManager;
     private LocationListener listener;
     private TextView textView;
-    String lattitude,longitude;
+    private String lattitude="",longitude="",user;
+    private ArrayList<String> nomParticipants = new ArrayList<>();
+    private TextView mItemSelected;
+    private String nomParticipantss;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+
 
         nombreEvento = (EditText) findViewById(R.id.edtNombreEvento);
         fechadesde = (EditText) findViewById(R.id.edtfechaDesde);
@@ -52,15 +91,20 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         horahasta = (EditText) findViewById(R.id.edtHoraHasta);
         descripcion = (EditText) findViewById(R.id.edtDescripcion);
         button = findViewById(R.id.button);
+        addUserButton = findViewById(R.id.buttonAddUser);
         textView = (TextView) findViewById(R.id.edtLocation);
+        mItemSelected = (TextView) findViewById(R.id.tvItemSelected);
+
+        bfechaInici=(Button)findViewById(R.id.bfechaInicio);
+        bhoraInici=(Button)findViewById(R.id.bhoraInicio);
+        bfechaFinal=(Button)findViewById(R.id.bfechaFinal);
+        bhoraFinal=(Button)findViewById(R.id.bhoraFinal);
 
         String dia, mes, any;
         dia = String.valueOf(getIntent().getStringExtra("dia")); //Obtenim el dia
         mes = String.valueOf(getIntent().getStringExtra("mes")); //Obtenim el mes
         any = String.valueOf(getIntent().getStringExtra("any")); //Obtenim l'any
-        System.out.println("A dia hi tenim= " + dia);
-        System.out.println("A mes hi tenim= " + mes);
-        System.out.println("A any hi tenim= " + any);
+        user = String.valueOf(getIntent().getStringExtra("user")); //Obtenim usuari
 
         fechadesde.setText(dia + " - " + mes + " - " + any);
         fechahasta.setText(dia + " - " + mes + " - " + any);
@@ -69,6 +113,85 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         guardar.setOnClickListener(this);
         cancelar.setOnClickListener(this);
         button.setOnClickListener(this);
+        addUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AddActivity.this,AddParticipantsEventActivity.class);
+                intent.putStringArrayListExtra("nomParticipants",nomParticipants);
+                startActivityForResult(intent,REQUEST_FORM);
+            }
+        });
+
+        bfechaInici.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar c= Calendar.getInstance();
+                diaI=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+                mesI=Calendar.getInstance().get(Calendar.MONTH);
+                anoI=Calendar.getInstance().get(Calendar.YEAR);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(AddActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        fechadesde.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
+                    }
+                }
+                ,diaI,mesI,anoI);
+                datePickerDialog.show();
+            }
+        });
+
+        bhoraInici.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar c= Calendar.getInstance();
+                horaI=c.get(Calendar.HOUR_OF_DAY);
+                minutosI=c.get(Calendar.MINUTE);
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(AddActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        horadesde.setText(hourOfDay+":"+minute);
+                    }
+                },horaI,minutosI,false);
+                timePickerDialog.show();
+            }
+        });
+        bfechaFinal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar c= Calendar.getInstance();
+                diaF=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+                mesF=Calendar.getInstance().get(Calendar.MONTH);
+                anoF=Calendar.getInstance().get(Calendar.YEAR);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(AddActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        fechahasta.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
+                    }
+                }
+                        ,diaF,mesF,anoF);
+                datePickerDialog.show();
+            }
+        });
+
+        bhoraFinal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar c= Calendar.getInstance();
+                horaF=c.get(Calendar.HOUR_OF_DAY);
+                minutosF=c.get(Calendar.MINUTE);
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(AddActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        horahasta.setText(hourOfDay+":"+minute);
+                    }
+                },horaF,minutosF,false);
+                timePickerDialog.show();
+            }
+        });
 
     }
 
@@ -76,36 +199,74 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if(view.getId()==guardar.getId()){
-            //Guardem les dades entrades per l'usuari
-            BDSQLite bd = new BDSQLite(getApplication(),"Agenda",null,1);
-            SQLiteDatabase db = bd.getWritableDatabase();
-
-            String sql = "insert into eventos" +
-                    "(nombreEvento, ubicacion, fechadesde, horadesde, fechahasta, horahasta," +
-                    "descripcion) values('" +
-                    nombreEvento.getText()+
-                    "','" + ubicacion.getText() +
-                    "','" + fechadesde.getText() +
-                    "','" + horadesde.getText() +
-                    "','" + fechahasta.getText() +
-                    "','" + horahasta.getText() +
-                    "','" + descripcion.getText() +
-                    "')";
-            try{
-                db.execSQL(sql);
-
-                nombreEvento.setText("");
-                ubicacion.setText("");
-                fechahasta.setText("");
-                fechadesde.setText("");
-                horahasta.setText("");
-                horadesde.setText("");
-                descripcion.setText("");
+            if(nombreEvento.getText().toString().equals("")){
+                Toast.makeText(this, "You need to enter an event name", Toast.LENGTH_SHORT).show();
+                return;
             }
-            catch(Exception e ){
-                Toast.makeText(getApplication(),"Error"+e.getMessage(),Toast.LENGTH_SHORT).show();
-
+            if(fechadesde.getText().toString().equals("")){
+                Toast.makeText(this, "You need to enter a date", Toast.LENGTH_SHORT).show();
+                return;
             }
+            if(horadesde.getText().toString().equals("")){
+                Toast.makeText(this, "You need to enter a start hour", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(fechahasta.getText().toString().equals("")){
+                Toast.makeText(this, "You need to enter a finish date", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(horahasta.getText().toString().equals("")){
+                Toast.makeText(this, "You need to enter an end date", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(descripcion.getText().toString().equals("")){
+                Toast.makeText(this, "You need to enter an event name", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(lattitude.equals("")){
+                Toast.makeText(this, "You need to set the location", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(longitude.equals("")){
+                Toast.makeText(this, "You need to set the location", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String horaFinal, horaInicial,diaInicial,diaFinal;
+            diaFinal = fechahasta.getText().toString();
+            horaInicial = horadesde.getText().toString();
+            horaFinal = horahasta.getText().toString();
+
+            Event nouEvent = new Event();
+            nouEvent.setEventDate(fechadesde.getText().toString().trim());
+            nouEvent.setOwner(user);
+            nouEvent.setLatitud(lattitude);
+            nouEvent.setLongitud(longitude);
+            nouEvent.setName(nombreEvento.getText().toString());
+            nouEvent.setNomParticipantss(nomParticipantss);
+            nouEvent.setEventDateFinish(diaFinal);
+            nouEvent.setHourEnd(horaFinal);
+            nouEvent.setHourStart(horaInicial);
+            if(mItemSelected.getText().toString().equals("")) nouEvent.setNomParticipantss(user);
+            else nouEvent.setNomParticipantss(mItemSelected.getText().toString());
+
+
+            apiService = ((RetrofitHTTP) this.getApplication()).getAPI();
+
+            Call<ResponseBody> call = apiService.createEvent(nouEvent);
+            call.enqueue(new Callback<ResponseBody>() {
+
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    System.out.println("Todo ok, lo flipo xd");
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    t.printStackTrace();
+                    System.out.println("No ha funcionat la call = "+t.getMessage());
+                }
+            });
+
             this.finish();
 
         } else if(view.getId()==cancelar.getId()) {
@@ -192,5 +353,32 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 });
         final AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            if (resultCode  == RESULT_OK) {
+                nomParticipants = data.getStringArrayListExtra("nomParticipants");
+                String[] listItems=new String[nomParticipants.size()];;
+                String item = "Users added : ";
+                nomParticipantss="";
+                for (int i = 0; i < nomParticipants.size(); i++) {
+                    item = item + nomParticipants.get(i);
+                    nomParticipantss= nomParticipantss + nomParticipants.get(i);
+                    if (i != nomParticipants.size() - 1) {
+                        item = item + ", ";
+                        nomParticipantss = nomParticipantss + ", ";
+                    }
+                }
+                mItemSelected.setText(item);
+            }
+        } catch (Exception ex) {
+            Toast.makeText(AddActivity.this, ex.toString(),
+                    Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

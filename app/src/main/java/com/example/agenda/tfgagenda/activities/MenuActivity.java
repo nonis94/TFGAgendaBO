@@ -34,7 +34,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         user = getIntent().getStringExtra("user"); //Obtenim el nom(correu)
-        password = getIntent().getStringExtra("password"); //Obtenim el nom(correu)
+        password = getIntent().getStringExtra("password"); //Obtenim el password
 
         mainGrid = (GridLayout) findViewById(R.id.mainGrid);
 
@@ -52,8 +52,9 @@ public class MenuActivity extends AppCompatActivity {
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(finalI==0){ //Calendarii
+                    if(finalI==0){ //Calendari
                         Intent intent = new Intent(MenuActivity.this,MainActivity.class);
+                        intent.putExtra("user",user);
                         startActivity(intent);
                     }
                     else if(finalI==1){ //Chat Privat o Public
@@ -65,6 +66,7 @@ public class MenuActivity extends AppCompatActivity {
 
                     else if(finalI==2){ //Mostrar tots events de l'usuari
                         Intent intent = new Intent(MenuActivity.this,ListEventsActivity.class);
+                        intent.putExtra("user",user);
                         startActivity(intent);
                     }
 

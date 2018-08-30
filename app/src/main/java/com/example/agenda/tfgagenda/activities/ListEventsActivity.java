@@ -30,17 +30,27 @@ public class ListEventsActivity extends AppCompatActivity {
     private List<Event> events = new ArrayList<>();
     private RecyclerViewAdapter adapter;
 
+    private String user;
+
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> latitud = new ArrayList<>();
     private ArrayList<String> longitud = new ArrayList<>();
     private ArrayList<String> datesInici = new ArrayList<>();
+    private ArrayList<String> nomParticipantss = new ArrayList<>();
+    private ArrayList<String> datesFinal = new ArrayList<>();
+    private ArrayList<String> horesInici = new ArrayList<>();
+    private ArrayList<String> horesFinal = new ArrayList<>();
+    private ArrayList<Long> id = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_events);
+
+        user = getIntent().getStringExtra("user"); //Obtenim el nom(correu)
+
         Log.d(TAG, "onCreate: started.");
         initImageBitmaps();
     }
@@ -50,7 +60,7 @@ public class ListEventsActivity extends AppCompatActivity {
 
         apiService = ((RetrofitHTTP) this.getApplication()).getAPI();
 
-        Call<List<Event>> call = (Call<List<Event>>) apiService.getEventsByUsername("zenon");
+        Call<List<Event>> call = (Call<List<Event>>) apiService.getEventsByUsername(user);
         call.enqueue(new Callback<List<Event>>() {
 
             @Override
@@ -63,6 +73,12 @@ public class ListEventsActivity extends AppCompatActivity {
                     latitud.add(events.get(i).getLatitud());
                     longitud.add(events.get(i).getLongitud());
                     datesInici.add(events.get(i).getEventDate());
+                    nomParticipantss.add(events.get(i).getNomParticipantss());
+                    datesFinal.add(events.get(i).getEventDateFinish());
+                    horesInici.add(events.get(i).getHourStart());
+                    horesFinal.add(events.get(i).getHourEnd());
+                    id.add((long) events.get(i).getId());
+                    System.out.println("El nom del participant es= "+events.get(i).getNomParticipantss());
                     adapter.notifyItemInserted(mNames.size());
                 }
             }
@@ -110,7 +126,7 @@ public class ListEventsActivity extends AppCompatActivity {
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: init recyclerview.");
         RecyclerView recyclerView = findViewById(R.id.recyclerv_view);
-        adapter = new RecyclerViewAdapter(this, mNames, mImageUrls,latitud,longitud,datesInici);
+        adapter = new RecyclerViewAdapter(this, mNames, mImageUrls,latitud,longitud,datesInici,nomParticipantss,datesFinal,horesInici,horesFinal,apiService,id);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

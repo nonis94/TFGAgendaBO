@@ -19,35 +19,75 @@
         <TextView
             android:id="@+id/ltvDesde"
             android:text="Desde"
+            android:layout_marginBottom="5dp"
             android:layout_below="@+id/edtNombreEvento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/bfechaInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha Inicio"
+            android:layout_below="@+id/ltvDesde" />
         <EditText
             android:id="@+id/edtfechaDesde"
             android:layout_below="@+id/edtNombreEvento"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/bfechaInicio"
+            android:layout_toRightOf="@+id/bfechaInicio"/>
+        <Button
+            android:id="@+id/bhoraInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hora Inicio"
+            android:layout_below="@+id/edtfechaDesde"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="46dp" />
         <EditText
             android:id="@+id/edtHoraInicio"
-            android:layout_below="@+id/edtfechaDesde"
+            android:layout_below="@+id/bhoraInicio"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/bhoraInicio"
+            android:layout_toRightOf="@+id/bhoraInicio"
+            />
         <TextView
             android:id="@+id/ltvHasta"
             android:text="Hasta"
             android:layout_below="@+id/edtHoraInicio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/bfechaFinal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha Final"
+            android:layout_below="@+id/ltvHasta" />
         <EditText
             android:id="@+id/edtFechaHasta"
             android:layout_below="@+id/ltvHasta"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/bfechaFinal"
+            android:layout_toRightOf="@+id/bfechaFinal"/>
+        <Button
+            android:id="@+id/bhoraFinal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hora Final"
+            android:layout_below="@+id/edtFechaHasta"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="46dp" />
         <EditText
             android:id="@+id/edtHoraHasta"
-            android:layout_below="@+id/edtFechaHasta"
+            android:layout_below="@+id/bhoraFinal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/bhoraFinal"
+            android:layout_toRightOf="@+id/bhoraFinal"/>
         <EditText
             android:id="@+id/edtDescripcion"
             android:hint="Descripcion"
@@ -67,24 +107,50 @@
         <Button
             android:id="@+id/button"
             android:layout_below="@+id/edtLocation"
-            android:layout_width="wrap_content"
+            android:layout_width="131dp"
             android:layout_height="wrap_content"
             android:text="Request Location"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorTextHint"/>
+
+        <Button
+            android:id="@+id/buttonAddUser"
+            android:layout_width="131dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorTextHint"
+            android:text="Add users" />
+
+        <TextView
+            android:layout_below="@+id/buttonAddUser"
+            android:id="@+id/tvItemSelected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textColor="@color/Black"
+            android:textSize="20sp"
+            android:textStyle="italic" />
         <Button
             android:id="@+id/btnGuardar"
             android:text="Guardar"
-            android:layout_below="@+id/button"
+            android:layout_below="@+id/tvItemSelected"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/colorTextHint"/>
         <Button
             android:id="@+id/btnCancelar"
-            android:layout_below="@+id/button"
+            android:layout_below="@+id/tvItemSelected"
             android:text="Cancelar"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/colorTextHint"/>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

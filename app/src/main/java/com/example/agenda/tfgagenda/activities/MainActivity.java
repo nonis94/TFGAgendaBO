@@ -16,11 +16,14 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     private final AppCompatActivity activity = MainActivity.this;
     private CalendarView calendarView;
     private BDSQLite bd;
+    private String user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        user = getIntent().getStringExtra("user"); //Obtenim el nom(correu)
         bd = new BDSQLite(activity);
         calendarView=(CalendarView)findViewById(R.id.calendarView);
         calendarView.setOnDateChangeListener(this);
@@ -29,10 +32,9 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     @Override
     public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        CharSequence []items = new CharSequence[3];
-        items[0]= "Añadir evento";
-        items[1]= "Ver evento";
-        items[2]= "Cancelar";
+        CharSequence []items = new CharSequence[2];
+        items[0]= "Add event";
+        items[1]= "Cancel";
 
         final int dia;
         int mes;
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         any = i2;
         mes++;
         final int finalMes = mes;
-        builder.setTitle("Selecciona una opcion").setItems(items, new DialogInterface.OnClickListener() {
+        builder.setTitle("Selecct an option").setItems(items, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
                     intent.putExtra("dia",String.valueOf(dia));
                     intent.putExtra("mes",String.valueOf(finalMes));
                     intent.putExtra("any",String.valueOf(any));
+                    intent.putExtra("user",String.valueOf(user));
                     /*
                     Bundle bundle = new Bundle();
                     bundle.putInt("dia",dia);
@@ -61,19 +64,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
                     startActivity(intent);
                 }
-                else if(i==1){ //Ver eventos
-                    Intent intent = new Intent(getApplication(), ViewEventsActivity.class);
-                    intent.putExtra("dia",dia);
-                    intent.putExtra("mes",finalMes);
-                    intent.putExtra("any",any);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("dia",dia);
-                    bundle.putInt("mes", finalMes);
-                    bundle.putInt("any",any);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
-                else if(i==2){ //Cancelar
+                else if(i==1){ //Cancelar
                     return;
                 }
             }

@@ -35,6 +35,10 @@ public class GalleryActivity extends AppCompatActivity {
     private String date;
     private String latitud;
     private String longitud;
+    private String nomParticipantss;
+    private String datesFinal;
+    private String horesInici;
+    private String horesFinal;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,19 +72,30 @@ public class GalleryActivity extends AppCompatActivity {
             date = "Start: "+getIntent().getStringExtra("datesInici");
             latitud = getIntent().getStringExtra("latitud");
             longitud = getIntent().getStringExtra("longitud");
-
-            setImage(imageUrl, imageName,date);
+            nomParticipantss =getIntent().getStringExtra("nomParticipantss");
+            datesFinal = "End: "+getIntent().getStringExtra("datesFinal");
+            horesInici ="Initial hour: "+getIntent().getStringExtra("horesInici");
+            horesFinal ="End hour: "+getIntent().getStringExtra("horesFinal");
+            setImage(imageUrl, imageName,date,nomParticipantss,datesFinal,horesInici,horesFinal);
         }
     }
 
 
-    private void setImage(String imageUrl, String imageName,String date){
+    private void setImage(String imageUrl, String imageName,String date,String nomParticipantss,String datesFinal,String horesInici,String horesFinal){
         Log.d(TAG, "setImage: setting te image and name to widgets.");
-
+        String finalParticipants = "List of users : "+nomParticipantss;
         TextView name = findViewById(R.id.image_description);
         name.setText(imageName);
         TextView dateInici = findViewById(R.id.iniciDate);
         dateInici.setText(date);
+        TextView horaInici = findViewById(R.id.horaInici);
+        horaInici.setText(horesInici);
+        TextView dataFinal = findViewById(R.id.dataFi);
+        dataFinal.setText(datesFinal);
+        TextView horaFi = findViewById(R.id.horaFi);
+        horaFi.setText(horesFinal);
+        TextView participants = findViewById(R.id.nomParticipantss);
+        participants.setText(finalParticipants);
 
         ImageView image = findViewById(R.id.image);
         Glide.with(this)

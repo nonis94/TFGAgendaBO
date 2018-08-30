@@ -34,11 +34,14 @@
         <activity android:name=".activities.UserProfile" />
         <activity android:name=".activities.MenuActivity" />
         <activity android:name=".activities.ListEventsActivity" />
-        <activity android:name=".activities.GalleryActivity"></activity>
+        <activity android:name=".activities.GalleryActivity" />
 
-        <!--<meta-data
+        <!--
+            <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:resource="AIzaSyAB0pVaxEZ6fP9_KJl0iyvGHJtzSXHS23k"></meta-data> -->
+            android:resource="AIzaSyAB0pVaxEZ6fP9_KJl0iyvGHJtzSXHS23k"></meta-data>
+        -->
+        <activity android:name=".activities.AddParticipantsEventActivity"></activity>
     </application>
 
 </manifest>
