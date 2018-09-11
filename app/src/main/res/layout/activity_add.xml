@@ -13,12 +13,12 @@
 
         <EditText
             android:id="@+id/edtNombreEvento"
-            android:hint="Nombre del evento"
+            android:hint="Event date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/ltvDesde"
-            android:text="Desde"
+            android:text="From"
             android:layout_marginBottom="5dp"
             android:layout_below="@+id/edtNombreEvento"
             android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
             android:id="@+id/bfechaInicio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fecha Inicio"
+            android:text="Initial date"
             android:layout_below="@+id/ltvDesde" />
         <EditText
             android:id="@+id/edtfechaDesde"
@@ -40,7 +40,7 @@
             android:id="@+id/bhoraInicio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hora Inicio"
+            android:text="Initial hour"
             android:layout_below="@+id/edtfechaDesde"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -55,7 +55,7 @@
             />
         <TextView
             android:id="@+id/ltvHasta"
-            android:text="Hasta"
+            android:text="Until"
             android:layout_below="@+id/edtHoraInicio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -63,11 +63,11 @@
             android:id="@+id/bfechaFinal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fecha Final"
+            android:text="End date"
             android:layout_below="@+id/ltvHasta" />
         <EditText
             android:id="@+id/edtFechaHasta"
-            android:layout_below="@+id/ltvHasta"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/bfechaFinal"
@@ -76,7 +76,7 @@
             android:id="@+id/bhoraFinal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hora Final"
+            android:text="End hour"
             android:layout_below="@+id/edtFechaHasta"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -90,7 +90,7 @@
             android:layout_toRightOf="@+id/bhoraFinal"/>
         <EditText
             android:id="@+id/edtDescripcion"
-            android:hint="Descripcion"
+            android:hint="Description"
             android:layout_below="@+id/edtHoraHasta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -138,7 +138,7 @@
             android:textStyle="italic" />
         <Button
             android:id="@+id/btnGuardar"
-            android:text="Guardar"
+            android:text="Save"
             android:layout_below="@+id/tvItemSelected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
         <Button
             android:id="@+id/btnCancelar"
             android:layout_below="@+id/tvItemSelected"
-            android:text="Cancelar"
+            android:text="Cancel"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

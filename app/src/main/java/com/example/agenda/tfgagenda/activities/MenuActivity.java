@@ -69,6 +69,10 @@ public class MenuActivity extends AppCompatActivity {
                         intent.putExtra("user",user);
                         startActivity(intent);
                     }
+                    else if(finalI==3){ //Creacio Widget
+                        Intent intent = new Intent(MenuActivity.this,WidgetActivity.class);
+                        startActivity(intent);
+                    }
 
 
                 }

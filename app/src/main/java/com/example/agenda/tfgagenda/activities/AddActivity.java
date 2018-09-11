@@ -119,6 +119,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 Intent intent = new Intent(AddActivity.this,AddParticipantsEventActivity.class);
                 intent.putStringArrayListExtra("nomParticipants",nomParticipants);
                 startActivityForResult(intent,REQUEST_FORM);
+
             }
         });
 

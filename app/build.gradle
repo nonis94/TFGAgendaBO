@@ -83,4 +83,7 @@ dependencies {
 
     //Maps
     compile 'com.google.android.gms:play-services-maps:11.8.0'
+
+    //Widget
+    compile 'io.paperdb:paperdb:2.5'
 }
