@@ -160,11 +160,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        CircleImageView image;
-        TextView imageName;
-        RelativeLayout parentLayout;
+        public CircleImageView image;
+        public TextView imageName;
+        public RelativeLayout parentLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);

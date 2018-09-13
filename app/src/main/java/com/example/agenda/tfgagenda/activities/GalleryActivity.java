@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.agenda.tfgagenda.R;
@@ -78,17 +79,15 @@ public class GalleryActivity extends AppCompatActivity {
                 call.enqueue(new Callback<Empty>() {
                     @Override
                     public void onResponse(Call<Empty> call, Response<Empty> response) {
-                        Intent intent = new Intent(GalleryActivity.this,ListEventsActivity.class);
-                        intent.putExtra("user",user);
-                        startActivity(intent);
+                        Intent output = getIntent();
+                        setResult(RESULT_OK, output);
                         finish();
                     }
 
                     @Override
                     public void onFailure(Call<Empty> call, Throwable t) {
-                        Intent intent = new Intent(GalleryActivity.this,ListEventsActivity.class);
-                        intent.putExtra("user",user);
-                        startActivity(intent);
+                        Intent output = getIntent();
+                        setResult(RESULT_OK, output);
                         finish();
                     }
                 });
@@ -107,7 +106,8 @@ public class GalleryActivity extends AppCompatActivity {
                 intent.putExtra("horesInici",getIntent().getStringExtra("horesInici"));
                 intent.putExtra("horesFinal",getIntent().getStringExtra("horesFinal"));
                 intent.putExtra("id",getIntent().getLongExtra("id",0));
-                startActivity(intent);
+                //startActivity(intent);
+                startActivityForResult(intent,1);
             }
         });
         Log.d(TAG, "onCreate: started.");
@@ -160,6 +160,24 @@ public class GalleryActivity extends AppCompatActivity {
                 .into(image);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("dins de onactivityresult galleryactivity");
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            if (resultCode  == RESULT_OK) {
+                System.out.println("Estem a update event, onactivityresult, tanquem activitat.");
+                Intent output = getIntent();
+                setResult(RESULT_OK, output);
+                finish();
+            }
+        } catch (Exception ex) {
+            Toast.makeText(GalleryActivity.this, ex.toString(),
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
 
 }

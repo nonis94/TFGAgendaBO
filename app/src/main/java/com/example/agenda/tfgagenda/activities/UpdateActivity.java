@@ -263,22 +263,24 @@ public class UpdateActivity extends AppCompatActivity implements View.OnClickLis
 
                 @Override
                 public void onResponse(Call<Empty> call, Response<Empty> response) {
-                    Intent intent = new Intent(UpdateActivity.this,ListEventsActivity.class);
-                    intent.putExtra("user",user);
-                    startActivity(intent);
+                    System.out.println("Update event ok");
+                    Intent output = getIntent();
+                    setResult(RESULT_OK, output);
                     finish();
                 }
 
                 @Override
                 public void onFailure(Call<Empty> call, Throwable t) {
-                    Intent intent = new Intent(UpdateActivity.this,ListEventsActivity.class);
-                    intent.putExtra("user",user);
-                    startActivity(intent);
+                    System.out.println("Update event not ok");
+                    Intent output = getIntent();
+                    setResult(RESULT_OK, output);
                     finish();
                 }
             });
 
-            this.finish();
+            Intent output = getIntent();
+            setResult(RESULT_OK, output);
+            finish();
 
         } else if(view.getId()==cancelar.getId()) {
             this.finish();

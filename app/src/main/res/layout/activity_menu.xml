@@ -209,13 +209,13 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:src="@drawable/friends"
+                    android:src="@drawable/ic_blocked"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text="Friends"
+                    android:text="Unavailable"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
@@ -245,13 +245,13 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:src="@drawable/calendar"
+                    android:src="@drawable/ic_blocked"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text="Calendar"
+                    android:text="Unavailable"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
